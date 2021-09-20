@@ -1,0 +1,16 @@
+<%= form_with(model: [@question, @question.comments.build], local: true) do |form| %>
+  <% @user = User.find(session[:user_id]) %>
+
+  <div class="field">
+    <%= form.label :comment_text %>
+    <%= form.text_area :comment_text %>
+  </div>
+
+  <%= form.hidden_field :user_id, :value => session[:user_id] %>
+
+  <%= form.hidden_field :question_id, :value => session[:user_id] %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

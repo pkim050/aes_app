@@ -1,0 +1,20 @@
+<h1>Welcome to AES Website!</h1>
+
+<% if session[:user_id] %>
+    <% @user = User.find(session[:user_id]) %>
+    <% if @user.etd %>
+        <p>Welcome back <%= @user.username %>! Please proceed to <%= link_to "Questions", questions_path %> to either create, edit, or review questions.</p><br>
+        <p>You can also download the csv file here: <%= link_to 'CSV', '/questions.csv' %></p>
+    <% elsif @user.sme || @user.editor %>
+        <p>Welcome back <%= @user.username %>! Please proceed to <%= link_to "Questions", questions_path %> to either review or finish the review of questions.</p>
+    <% else %>
+        <% @questions = Question.where(ready: true) %>
+        <% if @questions.empty? %>
+            <p>Welcome tester. Nothing here to see.</p>
+        <% else %>
+            <p>Please head over to this <%= link_to 'link', user_questions_path(session[:user_id]) %> to be tested.</p>
+        <% end %>
+    <% end %>
+<% else %>
+    <p>Hello! Looks like you're not logged in, please go ahead and either signup or login to see more content. </p>
+<% end %>

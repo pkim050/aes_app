@@ -1,0 +1,65 @@
+<%= form_with(model: question, local: true) do |form| %>
+  <% if question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+      <% question.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :question %>
+    <%= form.text_field :question_text, id: :question_question_text %>
+  </div>
+
+  <%= form.label :please_check_the_correct_answers_and_input_at_least_2_answers %>
+  <div class="field">
+    <%= form.label :answer_1 %>
+    <%= form.check_box :answer_1, id: :question_answer_1 %> <%= form.text_field :answer_1_text, id: :question_answer_1_text %>
+  </div>
+
+  <div class="field">
+    <%= form.label :answer_2 %>
+    <%= form.check_box :answer_2, id: :question_answer_2 %> <%= form.text_field :answer_2_text, id: :question_answer_2_text %>
+  </div>
+
+  <div class="field">
+    <%= form.label :answer_3 %>
+    <%= form.check_box :answer_3, id: :question_answer_3 %> <%= form.text_field :answer_3_text, id: :question_answer_3_text %>
+  </div>
+
+  <div class="field">
+    <%= form.label :answer_4 %>
+    <%= form.check_box :answer_4, id: :question_answer_4 %> <%= form.text_field :answer_4_text, id: :question_answer_4_text %>
+  </div>
+
+  <div class="field">
+    <%= form.label :answer_5 %>
+    <%= form.check_box :answer_5, id: :question_answer_5 %> <%= form.text_field :answer_5_text, id: :question_answer_5_text %>
+  </div>
+
+  <div class="field">
+    <%= form.label :answer_6 %>
+    <%= form.check_box :answer_6, id: :question_answer_6 %> <%= form.text_field :answer_6_text, id: :question_answer_6_text %>
+  </div>
+
+  <div class="field">
+    <%= form.label :answer_7 %>
+    <%= form.check_box :answer_7, id: :question_answer_7 %> <%= form.text_field :answer_7_text, id: :question_answer_7_text %>
+  </div>
+
+  <div class="field">
+    <%= form.label :assign_to %>
+    <%= form.collection_select(:assigned, @users, :id, :username, prompt: true) %>
+  </div>
+
+  <%= form.hidden_field :user_id, :value => session[:user_id] %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
