@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  username: MyString
+  password: MyString
+  password_digest: MyString
+  etd: false
+  sme: false
+  editor: false
+  tester: false
+
+two:
+  username: MyString
+  password: MyString
+  password_digest: MyString
+  etd: false
+  sme: false
+  editor: false
+  tester: false

@@ -1,0 +1,11 @@
+<%= User.find(comment.user_id).username %> - <%= comment.created_at %><br><br>
+<%= comment.comment_text %>
+<% if comment.completed == false %>
+    <%= form_for question_path do |c| %>
+        <%= c.hidden_field :completed, :value => true %>
+        <%= c.hidden_field :comment_id, :value => comment.id %>
+        <%= c.hidden_field :question_id, :value => comment.question_id %>
+        <%= c.submit "Complete Comment" %>
+    <% end %>
+<% end %>
+<hr>

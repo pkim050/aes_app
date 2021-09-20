@@ -1,0 +1,127 @@
+<p id="notice"><%= notice %></p>
+<% @user = User.find(session[:user_id]) %>
+<% if @user.tester %>
+  <%= form_with(model: @question, local: true) do |form| %>
+    <h1><%= @question.question_text %></h1>
+    <%= form.label :please_select_all_that_applies %>
+    <% if @question.answer_1_text.present? %>
+      <%= form.check_box :tester_answer_1 %> <%= @question.answer_1_text %><br>
+    <% end %>
+    <% if @question.answer_2_text.present? %>
+      <%= form.check_box :tester_answer_2 %> <%= @question.answer_2_text %><br>
+    <% end %>
+    <% if @question.answer_3_text.present? %>
+      <%= form.check_box :tester_answer_3 %> <%= @question.answer_3_text %><br>
+    <% end %>
+    <% if @question.answer_4_text.present? %>
+      <%= form.check_box :tester_answer_4 %> <%= @question.answer_4_text %><br>
+    <% end %>
+    <% if @question.answer_5_text.present? %>
+      <%= form.check_box :tester_answer_5 %> <%= @question.answer_5_text %><br>
+    <% end %>
+    <% if @question.answer_6_text.present? %>
+      <%= form.check_box :tester_answer_6 %> <%= @question.answer_6_text %><br>
+    <% end %>
+    <% if @question.answer_7_text.present? %>
+      <%= form.check_box :tester_answer_7 %> <%= @question.answer_7_text %><br>
+    <% end %>
+    <%= form.submit "Final Answer!" %>
+  <% end %>
+<% else %>
+  <p>
+    <strong>Question:</strong>
+    <%= @question.question_text %>
+  </p>
+
+  <p>
+    <strong>Answer 1:</strong>
+    <%= @question.answer_1_text %> <strong>(<%= @question.answer_1 ? "Correct" : "Wrong" %>)</strong>
+  </p>
+
+  <p>
+    <strong>Answer 2:</strong>
+    <%= @question.answer_2_text %> <strong>(<%= @question.answer_2 ? "Correct" : "Wrong" %>)</strong>
+  </p>
+
+  <% if @question.answer_3_text.present? %>
+    <p>
+      <strong>Answer 3:</strong>
+      <%= @question.answer_3_text %> <strong>(<%= @question.answer_3 ? "Correct" : "Wrong" %>)</strong>
+    </p>
+  <% end %>
+
+  <% if @question.answer_4_text.present? %>
+    <p>
+      <strong>Answer 4:</strong>
+      <%= @question.answer_4_text %> <strong>(<%= @question.answer_4 ? "Correct" : "Wrong" %>)</strong>
+    </p>
+  <% end %>
+
+  <% if @question.answer_5_text.present? %>
+    <p>
+      <strong>Answer 5:</strong>
+      <%= @question.answer_5_text %> <strong>(<%= @question.answer_5 ? "Correct" : "Wrong" %>)</strong>
+    </p>
+  <% end %>
+
+  <% if @question.answer_6_text.present? %>
+    <p>
+      <strong>Answer 6:</strong>
+      <%= @question.answer_6_text %> <strong>(<%= @question.answer_6 ? "Correct" : "Wrong" %>)</strong>
+    </p>
+  <% end %>
+
+  <% if @question.answer_7_text.present? %>
+    <p>
+      <strong>Answer 7:</strong>
+      <%= @question.answer_7_text %> <strong>(<%= @question.answer_7 ? "Correct" : "Wrong" %>)</strong>
+    </p>
+  <% end %>
+
+  <p>
+    Status: <%= @question.ready ? "Ready" : "Not Ready" %>
+  </p>
+
+  <% if @question.assigned.nil? %>
+    <p>Not currently assigned to any SME/Editor.</p>
+  <% else %>
+    <p>Currently assigned to: <%= User.find(@question.assigned).username %></p>
+  <% end %>
+
+  <p>
+    Question created by: <%= User.find(@question.user_id).username %>
+  </p>
+
+  <% counter = 0 %>
+  <% @question.comments.each do |comment| %>
+    <% if !comment.completed %>
+      <% counter += 1 %>
+    <% end %>
+  <% end %>
+
+  <% if counter == 0 %>
+    <% if @question.comments.count > 0 %>
+      <% if @question.ready != true %>
+        <% if User.find(session[:user_id]).etd %>
+          <%= form_for questions_path do |q| %>
+            <%= q.hidden_field :question_id, :value => @question.id %>
+            <%= q.submit "Ready" %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <p>
+    <h2><%= @question.comments.count %> Comments</h2>
+      <%= render @question.comments %>
+      <h3>Add a Comment:</h3>
+      <%= render 'comments/form' %>
+  </p>
+
+  <% @user = User.find(session[:user_id]) %>
+  <% if @user.etd %>
+    <%= link_to 'Edit', edit_question_path(@question) %> |
+  <% end %>
+  <%= link_to 'Back', questions_path %>
+<% end %>
